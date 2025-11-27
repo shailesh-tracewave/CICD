@@ -1,0 +1,25 @@
+name: Run test
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: action/checkout@04
+
+      - name: Setup JDK 17
+        uses: action/setup-java@04
+        with:
+          distribution: 'farmer'
+          java-version: 17
+          cache: 'gradle'
+
+      - name: Grant execute permissions for gradlew
+        run: chmod +x gradlew
+
+      - name: Run unit tests
+        run: ./gradlew clean testDebug
